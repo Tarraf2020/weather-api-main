@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import Search from "./components/Search";
-
-import SayHi, { SayHello } from "./components/WeatherItem";
-import fakeWeatherData from "./fakeWeatherData.json";
+import FakeWeather from "./data/FakeWeather.json";
 
 import "./App.css";
 
@@ -109,65 +107,42 @@ class Partlycloudy extends Component {
 }
 
 
-class Noww extends Component {
-  render() {
-    return (
-      <div className="now">
-        <img src={mostlycloudy} alt="mostlycloudy icon" />
-        <p className="p0">overcast clouds</p>
-        <p className="p1"><span>Temperature</span> 10° to 11°C</p>
-        <p className="p2"><span>Humidity</span> 78% <span>Pressure</span> 1008.48</p>
-      </div>
-    );
-  }
-}
+
 
 class Laterr extends Component {
   render() {
-    return (
-      <div className="laters">
+    var i=0;
+    var arr =[];
+    
+    for(var j=i+1; j<=i+7;j++){
+      var m;
+      if(FakeWeather.list[j].weather[0].main === 'Clear' ){
+        m=<Clear />
+      }else if(FakeWeather.list[j].weather[0].main === 'Clouds' ){
+        m=<Cloudy/>
+      }else if(FakeWeather.list[j].weather[0].main === 'Rain' ){
+        m=<Rain/>
+      }
+     arr.push(
         <div className="later id1">
-          <h4>03:00</h4>
-          <Mostlycloudy />
-          <h4>8°C</h4>
+          <h4>{FakeWeather.list[j].dt_txt.substring(10,16)}</h4>
+            {m}
+          <h4>{FakeWeather.list[j].main.temp} F</h4>
         </div>
+     )
+      }
+    return (
+      <div>
+      <div className="now">
+        <img src={mostlycloudy} alt="mostlycloudy icon" />
+        <p className="p0">{FakeWeather.list[i].weather[0].description}</p>
+        <p className="p1"><span>Temperature</span> {FakeWeather.list[i].main.temp_min} to {FakeWeather.list[i].main.temp_max}</p>
+        <p className="p2"><span>Humidity</span> {FakeWeather.list[i].main.humidity} <span>Pressure</span> {FakeWeather.list[i].main.pressure}</p>
+      </div>
 
-        <div className="later id2">
-          <h4>06:00</h4>
-          <Mostlycloudy />
-          <h4>9°C</h4>
-        </div>
-
-        <div className="later id3">
-          <h4>09:00</h4>
-          <Clear />
-          <h4>14°C</h4>
-        </div>
-
-        <div className="later id4">
-          <h4>12:00</h4>
-          <Clear />
-          <h4>17°C</h4>
-        </div>
-
-        <div className="later id5">
-          <h4>15:00</h4>
-          <Clear />
-          <h4>18°C</h4>
-        </div>
-
-        <div className="later id6">
-          <h4>18:00</h4>
-          <Clear />
-          <h4>16°C</h4>
-        </div>
-
-        <div className="later id7">
-          <h4>21:00</h4>
-          <Mostlycloudy />
-          <h4>13°C</h4>
-        </div>
-
+      <div className="laters">
+        {arr};
+      </div>
       </div>
     );
   }
@@ -176,12 +151,7 @@ class Laterr extends Component {
 
 
 class App extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     name: "Ibrahim_Ali"
-  //   };
-  // }
+  
 
   handleInputChange = value => {
     this.setState({ name: value });
@@ -190,20 +160,12 @@ class App extends Component {
   render() {
     return (
       <div className="app">
-        {/*<SayHi />
-          <SayHello color="black" name={this.state.name} /> */}
         <div className="app__header">
-
           <Search handleInput={this.handleInputChange} />
         </div>
-
         <div className="app__main">
           <div className="all">
-
-            <Noww />
-
             <Laterr />
-
           </div>
 
         </div>
